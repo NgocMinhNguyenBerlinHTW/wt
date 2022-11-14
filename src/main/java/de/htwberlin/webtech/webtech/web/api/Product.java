@@ -1,7 +1,7 @@
 package de.htwberlin.webtech.webtech.web.api;
 
 public class Product {
-    private int id;
+    private long id;
     private String name;
     private String description;
     private double price;
@@ -12,7 +12,7 @@ public class Product {
         this.description = description;
         this.price = price;
     }
-    public int getId() {
+    public long getId() {
         return id;
     }
 
