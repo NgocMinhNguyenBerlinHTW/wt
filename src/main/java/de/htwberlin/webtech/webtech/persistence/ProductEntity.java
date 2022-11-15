@@ -21,28 +21,26 @@ public class ProductEntity {
     @Column(name = "price",nullable = false)
     private double price;
 
-    protected ProductEntity() {
-    }
 
 
 
 
 
-    public ProductEntity(long id, String name, String description, double price) {
-        this.id = id;
+
+    public ProductEntity( String name, String description, double price) {
         this.name = name;
         this.description = description;
         this.price = price;
     }
 
+    public ProductEntity() {
+
+    }
+
+
     public long getId() {
         return id;
     }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
