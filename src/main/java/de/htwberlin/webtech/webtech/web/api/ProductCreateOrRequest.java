@@ -1,14 +1,14 @@
 package de.htwberlin.webtech.webtech.web.api;
 
-public class ProductCreateRequest {
+public class ProductCreateOrRequest {
     private String name;
     private String description;
     private double price;
 
-    public ProductCreateRequest() {
+    public ProductCreateOrRequest() {
     }
 
-    public ProductCreateRequest(String name, String description, double price) {
+    public ProductCreateOrRequest(String name, String description, double price) {
         this.name = name;
         this.description = description;
         this.price = price;

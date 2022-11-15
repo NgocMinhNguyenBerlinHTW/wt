@@ -3,7 +3,7 @@ package de.htwberlin.webtech.webtech.service;
 import de.htwberlin.webtech.webtech.persistence.ProductEntity;
 import de.htwberlin.webtech.webtech.persistence.ProductRepository;
 import de.htwberlin.webtech.webtech.web.api.Product;
-import de.htwberlin.webtech.webtech.web.api.ProductCreateRequest;
+import de.htwberlin.webtech.webtech.web.api.ProductCreateOrRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,7 +29,7 @@ public class ProductService {
         ).collect(Collectors.toList());
     }
 
-    public Product create (ProductCreateRequest request) {
+    public Product create(ProductCreateOrRequest request) {
         var productEntity = new ProductEntity(
                 request.getName(),
                 request.getDescription(),
@@ -40,6 +40,42 @@ public class ProductService {
                 productEntity.getName(),
                 productEntity.getDescription(),
                 productEntity.getPrice());
+    }
+
+    // we need to implement a method to find a product by id
+    public Product findProductById(long id) {
+        var productEntity = productRepository.findById(id);
+        if (productEntity.isEmpty()) {
+            return null;
+        }
+        return new Product(
+                productEntity.get().getId(),
+                productEntity.get().getName(),
+                productEntity.get().getDescription(),
+                productEntity.get().getPrice());
+
+    }
+
+    // create a method to update a product
+    public Product updateProduct(long id, ProductCreateOrRequest request) {
+        var productEntity = productRepository.findById(id);
+        if (productEntity.isEmpty()) {
+            return null;
+        }
+        productEntity.get().setName(request.getName());
+        productEntity.get().setDescription(request.getDescription());
+        productEntity.get().setPrice(request.getPrice());
+        productRepository.save(productEntity.get());
+        return new Product(
+                productEntity.get().getId(),
+                productEntity.get().getName(),
+                productEntity.get().getDescription(),
+                productEntity.get().getPrice());
+
+    }
+    // create a method to delete a product
+    public void deleteProduct(long id) {
+        productRepository.deleteById(id);
     }
 }
 

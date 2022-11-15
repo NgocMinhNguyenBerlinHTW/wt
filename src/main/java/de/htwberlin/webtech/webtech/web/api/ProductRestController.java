@@ -1,8 +1,6 @@
 package de.htwberlin.webtech.webtech.web.api;
 
 
-import de.htwberlin.webtech.webtech.persistence.ProductEntity;
-import de.htwberlin.webtech.webtech.persistence.ProductRepository;
 import de.htwberlin.webtech.webtech.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class ProductRestController {
@@ -50,11 +47,35 @@ public class ProductRestController {
 
 
     }
+    @GetMapping(path = "/api/v1/products/{id}")
+    public ResponseEntity<Product> fetchProduct(@PathVariable long id) {
+        var product = productService.findProductById(id);
+        if (product == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(product);
+    }
+    @PutMapping(path = "/api/v1/products/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable long id, @RequestBody ProductCreateOrRequest request) {
+        var product = productService.updateProduct(id, request);
+        if (product == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(product);
+    }
     @PostMapping(path = "/api/v1/products")
-    public ResponseEntity <Void> createProduct(@RequestBody  ProductCreateRequest request) throws URISyntaxException {
+    public ResponseEntity <Void> createProduct(@RequestBody ProductCreateOrRequest request) throws URISyntaxException {
         var product = productService.create(request);
         URI location = new URI("/api/v1/products/" + product.getId());
         return ResponseEntity.created(location).build();
     }
+    @DeleteMapping(path = "/api/v1/products/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable long id) {
+        productService.deleteProduct(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
 
 }
