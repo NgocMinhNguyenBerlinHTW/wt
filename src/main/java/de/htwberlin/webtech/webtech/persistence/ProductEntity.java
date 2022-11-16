@@ -13,13 +13,13 @@ public class ProductEntity {
     // annotation for auto increment
     @GeneratedValue(strategy = javax.persistence.GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private Long id;
     @Column(name = "name",nullable = false)
     private String name;
     @Column(name = "description")
     private String description;
     @Column(name = "price",nullable = false)
-    private double price;
+    private Double price;
 
 
 
@@ -27,7 +27,7 @@ public class ProductEntity {
 
 
 
-    public ProductEntity( String name, String description, double price) {
+    public ProductEntity( String name, String description, Double price) {
         this.name = name;
         this.description = description;
         this.price = price;
